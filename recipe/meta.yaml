@@ -1,4 +1,4 @@
-{% set version = "0.1.0" %}
+{% set version = "0.2.0" %}
 {% set name = "array-record" %}
 
 # This is the recipe for array-record
@@ -7,21 +7,28 @@ package:
    version: {{ version }}
 
 source:
-  git_url: https://github.com/google/array_record
-  git_rev: v{{ version }}
+  url: https://files.pythonhosted.org/packages/01/13/07bd4d0dbd4ce9152471dac6004609519a78402e2a70ae42940e2b3ff1a2/array_record-{{ version }}-py{{ python | replace(".", "") }}-none-any.whl
+  sha256: 4b9335c7e21b54f559bada68b26f79309903015ff65101d4a3c3c42c62658398   #[py==310]
+  sha256: d3b9a3a0d11f43a06a37fd8129d78e2894d7ff65b5fa53def198698c5592562a   #[py==39]
+  sha256: 12ce6844f8acb2e65f0bc4d8bcecbe19ac45a39cd2ba5bb56828668f118b1e87   #[py==38]
 
 build:
   number: 1
-  noarch: python
-  string: pyh{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
-  script: python -m pip install .
+  string: py{{ python | replace(".", "") }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  script: "python -m pip install array_record-{{ version }}*.whl --no-deps --ignore-installed --no-cache-dir -vvv"
 
 requirements:
   host:
-     - python
+     - python {{ python }}
+     - zipp
+     - importlib_resources {{ importlib_resources }}
+     - typing_extensions {{ typing_extensions }}
+     - absl-py {{ absl_py }}
+     - etils
+
   run:
    # conda build requirements
-     - python
+     - python {{ python }}
      - zipp
      - importlib_resources {{ importlib_resources }}
      - typing_extensions {{ typing_extensions }}
