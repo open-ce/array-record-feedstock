@@ -1,0 +1,55 @@
+{% set version = "0.2.0" %}
+{% set name = "array-record" %}
+{% set url_part = "01/13/07bd4d0dbd4ce9152471dac6004609519a78402e2a70ae42940e2b3ff1a2" %}   #[py==310]
+{% set url_part = "cd/e2/a19de62a8f1718dd729ed91289bf0bf0d9d1fd837dee438fa6b5b5eb93a4" %}   #[py==39]
+{% set url_part = "8a/15/032fe324a9f31fd516059682a6a6c163532acd13b17c0efa860474336cc6" %}   #[py==38]
+
+# This is the recipe for array-record
+package:
+   name: {{ name }}
+   version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/{{ url_part }}/array_record-{{ version }}-py{{ python | replace(".", "") }}-none-any.whl
+  sha256: 4b9335c7e21b54f559bada68b26f79309903015ff65101d4a3c3c42c62658398   #[py==310]
+  sha256: d3b9a3a0d11f43a06a37fd8129d78e2894d7ff65b5fa53def198698c5592562a   #[py==39]
+  sha256: 12ce6844f8acb2e65f0bc4d8bcecbe19ac45a39cd2ba5bb56828668f118b1e87   #[py==38]
+
+build:
+  number: 1
+  string: py{{ python | replace(".", "") }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  script: "python -m pip install array_record-{{ version }}*.whl --no-deps --ignore-installed --no-cache-dir -vvv"
+
+requirements:
+  host:
+     - python {{ python }}
+     - zipp
+     - importlib_resources {{ importlib_resources }}
+     - typing_extensions {{ typing_extensions }}
+     - absl-py {{ absl_py }}
+     - etils
+
+  run:
+   # conda build requirements
+     - python {{ python }}
+     - zipp
+     - importlib_resources {{ importlib_resources }}
+     - typing_extensions {{ typing_extensions }}
+     - absl-py {{ absl_py }}
+     - etils
+
+about:
+  home: https://github.com/google/array_record
+  license: Apache License 2.0
+  license_family: APACHE
+  license_file: ../LICENSE
+  summary: "A new file format derived from Riegeli"
+  description: |
+      ArrayRecord is a new file format derived from Riegeli,
+      achieving a new frontier of IO efficiency. 
+  dev_url: https://github.com/google/array_record
+  doc_url: https://github.com/google/array_record
+
+extra:
+  recipe-maintainers:
+    - open-ce/open-ce-dev-team
