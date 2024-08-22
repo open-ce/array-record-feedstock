@@ -19,13 +19,14 @@ source:
   sha256: 12ce6844f8acb2e65f0bc4d8bcecbe19ac45a39cd2ba5bb56828668f118b1e87   #[py==38]
 
 build:
-  number: 2
+  number: 3
   string: py{{ python | replace(".", "") }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   script: "python -m pip install array_record-{{ version }}*.whl --no-deps --ignore-installed --no-cache-dir -vvv"
 
 requirements:
   host:
      - python {{ python }}
+     - pip {{ pip }}
      - zipp
      - importlib_resources {{ importlib_resources }}
      - typing_extensions {{ typing_extensions }}
